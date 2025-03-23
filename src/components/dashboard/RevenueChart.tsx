@@ -17,7 +17,6 @@ import {
 } from 'recharts';
 import { motion } from 'framer-motion';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { revenueData, chartTypes, timePeriods } from '@/lib/data';
 
 export function RevenueChart() {
@@ -62,6 +61,7 @@ export function RevenueChart() {
                   boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                 }}
               />
+              <Legend />
               <Bar 
                 dataKey="revenue" 
                 fill="hsl(var(--primary))" 
@@ -104,6 +104,7 @@ export function RevenueChart() {
                   boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                 }}
               />
+              <Legend />
               <Line 
                 type="monotone" 
                 dataKey="revenue" 
@@ -167,21 +168,21 @@ export function RevenueChart() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className="bg-white rounded-xl border border-gray-100 shadow-soft p-6"
+      className="bg-white rounded-xl border border-gray-100 shadow-sm p-6"
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
         <h2 className="text-xl font-semibold">Revenue Overview</h2>
         
         <div className="flex flex-col sm:flex-row gap-3">
-          <ToggleGroup type="single" value={timePeriod} onValueChange={(value) => value && setTimePeriod(value)}>
+          <ToggleGroup type="single" value={timePeriod} onValueChange={(value) => value && setTimePeriod(value)} className="border rounded-md">
             {timePeriods.map((period) => (
-              <ToggleGroupItem key={period.id} value={period.id} aria-label={period.name} className="text-xs">
+              <ToggleGroupItem key={period.id} value={period.id} aria-label={period.name} className="text-xs px-3">
                 {period.name}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
           
-          <ToggleGroup type="single" value={chartType} onValueChange={(value) => value && setChartType(value)}>
+          <ToggleGroup type="single" value={chartType} onValueChange={(value) => value && setChartType(value)} className="border rounded-md">
             {chartTypes.map((type) => (
               <ToggleGroupItem key={type.id} value={type.id} aria-label={type.name}>
                 <type.icon className="h-4 w-4" />
@@ -192,6 +193,10 @@ export function RevenueChart() {
       </div>
       
       {renderChart()}
+      
+      <div className="mt-4 text-sm text-muted-foreground">
+        <p>* Revenue data shown is for demonstration purposes only.</p>
+      </div>
     </motion.div>
   );
 }
